@@ -8,9 +8,12 @@ Created on Sun Apr 29 00:03:49 2018
 
 import  pandas as pd
 dataframe = pd.read_csv('breast-cancer-wisconsin.csv', engine='python')
-dataframe = dataframe.drop(['bare_nucleoli'], axis=1)
+dataframe = dataframe.drop(['id'], axis=1)
 print(dataframe.describe())
 
+#handling na
+for label in ['clump_thickness','size_uniformity','shape_uniformity','marginal_adhesion']:
+    dataframe[label] = dataframe[label].fillna(method='ffill')
 
 
 
