@@ -30,13 +30,23 @@ def predict_y(m,b,data):
     return m,b
     
     
-def tune_model(var_rmse):
+def tune_model(data):
     #if var_rmse <= var_rmse:
     #    print("Anchit")
     global m
     global b
-    m = m + learning_rate
-    #b = b + 1
+    global theta
+    
+    X = data['rooms'].values.reshape(-1,1)
+    ones = np.ones([X.shape[0], 1])
+    X = np.concatenate([ones, X],1)
+    y = data['price'].values.reshape(-1,1)
+    ones = np.ones([y.shape[0],1])
+    y = np.concatenate([ones,y],1)
+    theta = theta - (learning_rate/len(X)) * np.sum((X @ theta.T - y) * X, axis=0)
+    m = theta[0][0]
+    b = theta[0][1]
+    
        
 
 
@@ -48,11 +58,12 @@ data["rooms"]= data["rm"]
 data["price"] = data["medv"] *1
 
 #parameter initialization
-m = 1
-b = -1
+theta = np.array([[1.0, 1.0]])
+m = theta[0][0]
+b = theta[0][1]
 
 #Hyperparameters
-learning_rate = 0.1
+learning_rate = 0.0001
 iterations = np.arange(0,100)
 
 #tracking costs per iteration
@@ -60,11 +71,12 @@ costs_per_iteration = []
 final_m = 0
 final_b = 0
 
+
+
 for i in iterations:
     #predict Y with existing parameters(m,b)
     predict_y(m,b,data)
-    
-    
+      
     #caculate the error with the loss function
     print(m)
     var_rmse = cost_calution(data)
@@ -76,7 +88,7 @@ for i in iterations:
         final_b = b
     
     #now change the model paramerters to reduce loss
-    tune_model(var_rmse)
+    tune_model(data)
     
 plt.plot(iterations, costs_per_iteration,color='blue')
 plt.show()
