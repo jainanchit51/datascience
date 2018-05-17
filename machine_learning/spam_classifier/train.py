@@ -1,7 +1,8 @@
 import numpy as np
 from numpy import array
 import pandas as pd
-from oneoone import *
+from oneoone import LogisticRegression
+import pickle
 
 ## This method will read the data and appends data to a list
 def read(filename):
@@ -53,23 +54,33 @@ def vectrorize(text_arr,dictt):
     print(array(vectors))
     return vectors
 
+
+#loading total text
+total_x, total_y = read("sms_spam.csv")
+dictt = create_unique_dict(total_x)
+
+#creating dictionary from total text to pickle
+filehandler = open("dictionary.pickle",'wb')
+pickle.dump(dictt,filehandler)
+filehandler.close()
+
+
+#reading train data and vectorizing it
 x, y = read("train.csv")
-dictt = create_unique_dict(x)
 x = np.array(vectrorize(x, dictt))
 y = np.array(y)
 
+
+#reading test data and vectorizing it
 test_x, test_y = read("test.csv")
-dictt = create_unique_dict(test_x)
 test_x = np.array(vectrorize(test_x, dictt))
 test_y = np.array(test_y)
 
 
-lr=0.001
+lr=0.0001
 num_iter=10000
 logr = LogisticRegression(lr,num_iter, 0.5)
 
 logr.train(x,y)
 
 print(logr.evaluate(test_x,test_y))
-
-#print(logr.predict(np.array([[1,1,1,1],[0.1,0.1,0.1,0.1]])))

@@ -63,7 +63,7 @@ class LogisticRegression:
             if y == 0:
                 y = False
             else:
-                y == True
+                y = True
             if y == y_predicted[i]:
                 correct = correct + 1
         total = y_predicted.size

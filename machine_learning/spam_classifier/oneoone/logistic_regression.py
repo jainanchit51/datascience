@@ -42,7 +42,7 @@ class LogisticRegression:
            h = self._sigmoid(z)
            loss = self.__loss(h, y)
 
-           if( i % 1000 == 0):
+           if( i % 100 == 0):
                print(f'loss: {loss} \t')
         filehandler = open("logistic_regression_model.pickle",'wb')
         pickle.dump(self.theta,filehandler)
@@ -63,7 +63,7 @@ class LogisticRegression:
             if y == 0:
                 y = False
             else:
-                y == True
+                y = True
             if y == y_predicted[i]:
                 correct = correct + 1
         total = y_predicted.size
