@@ -69,6 +69,8 @@ train_generator = train_datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode='binary')
 
+print(train_generator.class_indices)
+
 validation_generator = test_datagen.flow_from_directory(
     validation_data_dir,
     target_size=(img_width, img_height),

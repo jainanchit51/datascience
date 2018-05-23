@@ -1,6 +1,9 @@
 from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
+from os import listdir
+from os.path import isfile, join
+
 
 # dimensions of our images
 img_width, img_height = 150, 150
@@ -11,25 +14,28 @@ model.compile(loss='binary_crossentropy',
               optimizer='rmsprop',
               metrics=['accuracy'])
 
+mypath = "predict/"
+onlyfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+print(onlyfiles)
 # predicting images
-img = image.load_img('predict/1.jpg', target_size=(img_width, img_height))
-x = image.img_to_array(img)
-x = np.expand_dims(x, axis=0)
+dog_counter = 0 
+cat_counter  = 0
+for file in onlyfiles:
+    img = image.load_img(mypath+file, target_size=(img_width, img_height))
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    
+    images = np.vstack([x])
+    classes = model.predict_classes(images, batch_size=10)
+    classes = classes[0][0]
+    
+    if classes == 0:
+        print(file + ": " + 'cat')
+        cat_counter += 1
+    else:
+        print(file + ": " + 'dog')
+        dog_counter += 1
+print("Total Dogs :",dog_counter)
+print("Total Cats :",cat_counter)
 
-images = np.vstack([x])
-classes = model.predict_classes(images, batch_size=10)
-print (classes)
 
-# predicting multiple images at once
-img = image.load_img('predict/2.jpg', target_size=(img_width, img_height))
-y = image.img_to_array(img)
-y = np.expand_dims(y, axis=0)
-
-# passing the list of multiple images np.vstack()
-images = np.vstack([x, y])
-classes = model.predict_classes(images, batch_size=10)
-
-# print the classes, the images belong to
-print (classes)
-print (classes[0])
-print (classes[0][0])
