@@ -34,7 +34,7 @@ class_names = read_classes("model_data/coco_classes.txt")
 anchors = read_anchors("model_data/yolo_anchors.txt")
 
 #Load the pretrained model. Please refer the README file to get info on how to obtain the yolo.h5 file
-yolo_model = load_model("model_data/tiny-yolo-voc.h5")
+yolo_model = load_model("model_data/yolo.h5")
 
 #Print the summery of the model
 yolo_model.summary()
@@ -52,7 +52,7 @@ sess = K.get_session()
 
 
 #Preprocess the input image before feeding into the convolutional network
-image, image_data = preprocess_image("images/" + input_image_name, model_image_size = (608, 608))
+image, image_data = preprocess_image("images/" + input_image_name, model_image_size = (416, 416))
 
 #Run the session
 out_scores, out_boxes, out_classes = sess.run([scores, boxes, classes],feed_dict={yolo_model.input:image_data,K.learning_phase(): 0})
