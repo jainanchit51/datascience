@@ -1,4 +1,5 @@
 # import the needed modules
+import sys
 import os
 from matplotlib.pyplot import imshow
 import scipy.io
@@ -17,7 +18,7 @@ from yad2k.models.keras_yolo import yolo_head, yolo_eval
 
 
 #Provide the name of the image that you saved in the images folder to be fed through the network
-input_image_name = "test4.jpg"
+input_image_name = sys.argv[1]
 
 #Obtaining the dimensions of the input image
 input_image = Image.open("images/" + input_image_name)
