@@ -17,7 +17,7 @@ from yad2k.models.keras_yolo import yolo_head, yolo_eval
 
 
 #Provide the name of the image that you saved in the images folder to be fed through the network
-input_image_name = "test45.jpg"
+input_image_name = "test4.jpg"
 
 #Obtaining the dimensions of the input image
 input_image = Image.open("images/" + input_image_name)
@@ -34,7 +34,7 @@ class_names = read_classes("model_data/coco_classes.txt")
 anchors = read_anchors("model_data/yolo_anchors.txt")
 
 #Load the pretrained model. Please refer the README file to get info on how to obtain the yolo.h5 file
-yolo_model = load_model("model_data/yolo.h5")
+yolo_model = load_model("model_data/tiny-yolo-voc.h5")
 
 #Print the summery of the model
 yolo_model.summary()
